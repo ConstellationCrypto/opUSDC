@@ -13,9 +13,9 @@ contract DeployProtocol is Script {
   address public immutable BRIDGED_USDC_IMPLEMENTATION = vm.envAddress('BRIDGED_USDC_IMPLEMENTATION');
   address public immutable L1_MESSENGER = vm.envAddress('L1_MESSENGER');
   string public chainName = vm.envString('CHAIN_NAME');
-  address public owner = vm.rememberKey(vm.envUint('PRIVATE_KEY'));
+  address public owner = vm.rememberKey(vm.envUint('DEPLOYER_PRIVATE_KEY'));
 
-  function run() public {
+  function run() public returns (address, address, address) {
     vm.startBroadcast(owner);
 
     // NOTE: We have these hardcoded to default values, if used in production you will need to change them
@@ -45,5 +45,7 @@ contract DeployProtocol is Script {
     console.log('L1 Adapter:', _l1Adapter);
     console.log('L2 Deploy:', _l2Deploy);
     console.log('L2 Adapter:', _l2Adapter);
+
+    return (_l1Adapter, _l2Deploy, _l2Adapter);
   }
 }
